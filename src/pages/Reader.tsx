@@ -21,12 +21,16 @@ const Reader = () => {
 
   // Sample text - in reality this would be dynamic
   const currentParagraph = [
-    "In my younger and more vulnerable years",
-    "my father gave me some advice",
-    "that I've been turning over in my mind ever since."
+    "In my younger and more vulnerable years my father gave me some advice that I've been turning over in my mind ever since.",
+    "\"Whenever you feel like criticizing any one,\" he told me, \"just remember that all the people in this world haven't had the advantages that you've had.\"",
+    "He didn't say any more, but we've always been unusually communicative in a reserved way, and I understood that he meant a great deal more than that.",
+    "In consequence, I'm inclined to reserve all judgments, a habit that has opened up many curious natures to me and also made me the victim of not a few veteran bores.",
+    "The abnormal mind is quick to detect and attach itself to this quality when it appears in a normal person.",
+    "And so it came about that in college I was unjustly accused of being a politician, because I was privy to the secret griefs of wild, unknown men."
   ];
 
   const [highlightedLine, setHighlightedLine] = useState(0);
+  const [progress, setProgress] = useState(25);
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -51,17 +55,18 @@ const Reader = () => {
       </div>
 
       {/* Reading Area */}
-      <div className="flex-1 flex items-center justify-center p-6 overflow-hidden">
-        <div className="max-w-2xl w-full space-y-6">
+      <div className="flex-1 flex items-center justify-center p-4 sm:p-6 overflow-auto">
+        <div className="max-w-3xl w-full space-y-6">
           {/* Text Display with Highlighting */}
-          <Card className="p-8 space-y-4 bg-card/80 backdrop-blur">
+          <Card className="p-6 sm:p-8 space-y-3 bg-card/80 backdrop-blur">
             {currentParagraph.map((line, index) => (
               <p
                 key={index}
-                className={`text-2xl leading-relaxed transition-all duration-300 ${
+                onClick={() => setHighlightedLine(index)}
+                className={`text-lg sm:text-xl leading-relaxed transition-all duration-300 cursor-pointer ${
                   highlightedLine === index
-                    ? "bg-highlight text-highlight-foreground px-3 py-2 rounded-md font-semibold"
-                    : "text-muted-foreground"
+                    ? "bg-highlight text-highlight-foreground px-3 py-2 rounded-md font-semibold scale-[1.02]"
+                    : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 {line}
@@ -73,7 +78,7 @@ const Reader = () => {
           <Button
             onClick={() => setShowClarify(!showClarify)}
             variant={showClarify ? "default" : "outline"}
-            className="w-full h-14 text-lg font-semibold"
+            className="w-full h-12 sm:h-14 text-base sm:text-lg font-semibold"
           >
             <Lightbulb className="w-5 h-5 mr-2" />
             {showClarify ? "Hide Help" : "Need Help? Tap to Clarify"}
@@ -113,31 +118,40 @@ const Reader = () => {
       </div>
 
       {/* Playback Controls */}
-      <div className="bg-card border-t border-border p-6 space-y-4">
-        <div className="max-w-2xl mx-auto space-y-4">
+      <div className="bg-card border-t border-border p-4 sm:p-6 space-y-4">
+        <div className="max-w-3xl mx-auto space-y-4">
           {/* Progress Bar */}
           <div className="space-y-2">
-            <Slider defaultValue={[45]} max={100} step={1} />
+            <Slider 
+              value={[progress]} 
+              max={100} 
+              step={1} 
+              onValueChange={(value) => setProgress(value[0])}
+            />
             <div className="flex justify-between text-xs text-muted-foreground">
               <span>2:15</span>
-              <span>4:30</span>
+              <span>9:00</span>
             </div>
           </div>
 
           {/* Playback Buttons */}
-          <div className="flex items-center justify-center gap-4">
+          <div className="flex items-center justify-center gap-3 sm:gap-4">
             <Button 
               variant="outline" 
               size="icon" 
-              className="h-12 w-12"
-              onClick={() => setHighlightedLine(Math.max(0, highlightedLine - 1))}
+              className="h-11 w-11 sm:h-12 sm:w-12"
+              onClick={() => {
+                setHighlightedLine(Math.max(0, highlightedLine - 1));
+                const newProgress = Math.max(0, progress - 5);
+                setProgress(newProgress);
+              }}
             >
               <SkipBack className="w-5 h-5" />
             </Button>
             
             <Button 
               size="icon" 
-              className="h-16 w-16"
+              className="h-14 w-14 sm:h-16 sm:w-16"
               onClick={() => {
                 setIsPlaying(!isPlaying);
                 if (!isPlaying) {
@@ -151,7 +165,8 @@ const Reader = () => {
                       }
                       return prev + 1;
                     });
-                  }, 2000);
+                    setProgress(prev => Math.min(100, prev + 2));
+                  }, 3000);
                 }
               }}
             >
@@ -165,8 +180,12 @@ const Reader = () => {
             <Button 
               variant="outline" 
               size="icon" 
-              className="h-12 w-12"
-              onClick={() => setHighlightedLine(Math.min(currentParagraph.length - 1, highlightedLine + 1))}
+              className="h-11 w-11 sm:h-12 sm:w-12"
+              onClick={() => {
+                setHighlightedLine(Math.min(currentParagraph.length - 1, highlightedLine + 1));
+                const newProgress = Math.min(100, progress + 5);
+                setProgress(newProgress);
+              }}
             >
               <SkipForward className="w-5 h-5" />
             </Button>
