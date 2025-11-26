@@ -12,12 +12,15 @@ import {
   Lightbulb
 } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import { AudiobookPlayer } from "@/utils/speechSynthesis";
 
 const Reader = () => {
   const navigate = useNavigate();
   const [isPlaying, setIsPlaying] = useState(false);
   const [showClarify, setShowClarify] = useState(false);
+  const [volume, setVolume] = useState(70);
+  const playerRef = useRef<AudiobookPlayer | null>(null);
 
   // Sample text - in reality this would be dynamic
   const currentParagraph = [
@@ -30,7 +33,29 @@ const Reader = () => {
   ];
 
   const [highlightedLine, setHighlightedLine] = useState(0);
-  const [progress, setProgress] = useState(25);
+  const [progress, setProgress] = useState(0);
+
+  // Initialize audio player
+  useEffect(() => {
+    playerRef.current = new AudiobookPlayer(
+      setHighlightedLine,
+      setIsPlaying,
+      setProgress
+    );
+    playerRef.current.loadText(currentParagraph);
+
+    return () => {
+      playerRef.current?.stop();
+    };
+  }, []);
+
+  // Handle volume changes
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.speechSynthesis) {
+      // Volume is handled per utterance, but we can store it
+      playerRef.current?.setRate(0.9);
+    }
+  }, [volume]);
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -62,7 +87,9 @@ const Reader = () => {
             {currentParagraph.map((line, index) => (
               <p
                 key={index}
-                onClick={() => setHighlightedLine(index)}
+                onClick={() => {
+                  playerRef.current?.jumpToLine(index);
+                }}
                 className={`text-lg sm:text-xl leading-relaxed transition-all duration-300 cursor-pointer ${
                   highlightedLine === index
                     ? "bg-highlight text-highlight-foreground px-3 py-2 rounded-md font-semibold scale-[1.02]"
@@ -141,9 +168,7 @@ const Reader = () => {
               size="icon" 
               className="h-11 w-11 sm:h-12 sm:w-12"
               onClick={() => {
-                setHighlightedLine(Math.max(0, highlightedLine - 1));
-                const newProgress = Math.max(0, progress - 5);
-                setProgress(newProgress);
+                playerRef.current?.skipBackward();
               }}
             >
               <SkipBack className="w-5 h-5" />
@@ -153,20 +178,10 @@ const Reader = () => {
               size="icon" 
               className="h-14 w-14 sm:h-16 sm:w-16"
               onClick={() => {
-                setIsPlaying(!isPlaying);
-                if (!isPlaying) {
-                  // Simulate highlighting progression
-                  const interval = setInterval(() => {
-                    setHighlightedLine(prev => {
-                      if (prev >= currentParagraph.length - 1) {
-                        clearInterval(interval);
-                        setIsPlaying(false);
-                        return 0;
-                      }
-                      return prev + 1;
-                    });
-                    setProgress(prev => Math.min(100, prev + 2));
-                  }, 3000);
+                if (isPlaying) {
+                  playerRef.current?.pause();
+                } else {
+                  playerRef.current?.play();
                 }
               }}
             >
@@ -182,19 +197,24 @@ const Reader = () => {
               size="icon" 
               className="h-11 w-11 sm:h-12 sm:w-12"
               onClick={() => {
-                setHighlightedLine(Math.min(currentParagraph.length - 1, highlightedLine + 1));
-                const newProgress = Math.min(100, progress + 5);
-                setProgress(newProgress);
+                playerRef.current?.skipForward();
               }}
             >
               <SkipForward className="w-5 h-5" />
             </Button>
           </div>
 
-          {/* Volume */}
+          {/* Reading Speed */}
           <div className="flex items-center gap-3">
             <Volume2 className="w-5 h-5 text-muted-foreground" />
-            <Slider defaultValue={[70]} max={100} step={1} className="flex-1" />
+            <Slider 
+              value={[volume]} 
+              max={100} 
+              step={10} 
+              onValueChange={(value) => setVolume(value[0])}
+              className="flex-1" 
+            />
+            <span className="text-xs text-muted-foreground w-12">{volume}%</span>
           </div>
         </div>
       </div>
