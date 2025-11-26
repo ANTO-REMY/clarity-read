@@ -19,7 +19,7 @@ const Reader = () => {
   const navigate = useNavigate();
   const [isPlaying, setIsPlaying] = useState(false);
   const [showClarify, setShowClarify] = useState(false);
-  const [volume, setVolume] = useState(70);
+  const [speed, setSpeed] = useState(1);
   const playerRef = useRef<AudiobookPlayer | null>(null);
 
   // Sample text - in reality this would be dynamic
@@ -49,13 +49,11 @@ const Reader = () => {
     };
   }, []);
 
-  // Handle volume changes
-  useEffect(() => {
-    if (typeof window !== 'undefined' && window.speechSynthesis) {
-      // Volume is handled per utterance, but we can store it
-      playerRef.current?.setRate(0.9);
-    }
-  }, [volume]);
+  // Handle speed changes
+  const handleSpeedChange = (newSpeed: number) => {
+    setSpeed(newSpeed);
+    playerRef.current?.setRate(newSpeed);
+  };
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -152,12 +150,18 @@ const Reader = () => {
             <Slider 
               value={[progress]} 
               max={100} 
-              step={1} 
-              onValueChange={(value) => setProgress(value[0])}
+              step={0.1}
+              onValueChange={(value) => {
+                const newProgress = value[0];
+                const lineIndex = Math.floor((newProgress / 100) * currentParagraph.length);
+                if (lineIndex >= 0 && lineIndex < currentParagraph.length) {
+                  playerRef.current?.jumpToLine(lineIndex);
+                }
+              }}
             />
             <div className="flex justify-between text-xs text-muted-foreground">
-              <span>2:15</span>
-              <span>9:00</span>
+              <span>Line {Math.floor((progress / 100) * currentParagraph.length) + 1} of {currentParagraph.length}</span>
+              <span>{Math.round(progress)}%</span>
             </div>
           </div>
 
@@ -204,17 +208,35 @@ const Reader = () => {
             </Button>
           </div>
 
-          {/* Reading Speed */}
-          <div className="flex items-center gap-3">
-            <Volume2 className="w-5 h-5 text-muted-foreground" />
-            <Slider 
-              value={[volume]} 
-              max={100} 
-              step={10} 
-              onValueChange={(value) => setVolume(value[0])}
-              className="flex-1" 
-            />
-            <span className="text-xs text-muted-foreground w-12">{volume}%</span>
+          {/* Speed Controls */}
+          <div className="flex items-center justify-center gap-2">
+            <span className="text-sm text-muted-foreground">Speed:</span>
+            <div className="flex gap-2">
+              <Button
+                variant={speed === 1 ? "default" : "outline"}
+                size="sm"
+                onClick={() => handleSpeedChange(1)}
+                className="h-8 px-3"
+              >
+                1x
+              </Button>
+              <Button
+                variant={speed === 1.5 ? "default" : "outline"}
+                size="sm"
+                onClick={() => handleSpeedChange(1.5)}
+                className="h-8 px-3"
+              >
+                1.5x
+              </Button>
+              <Button
+                variant={speed === 2 ? "default" : "outline"}
+                size="sm"
+                onClick={() => handleSpeedChange(2)}
+                className="h-8 px-3"
+              >
+                2x
+              </Button>
+            </div>
           </div>
         </div>
       </div>

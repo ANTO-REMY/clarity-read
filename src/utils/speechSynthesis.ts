@@ -2,6 +2,7 @@ export class AudiobookPlayer {
   private utterances: SpeechSynthesisUtterance[] = [];
   private currentIndex: number = 0;
   private isPaused: boolean = false;
+  private currentRate: number = 0.9;
   private onHighlightChange: (index: number) => void;
   private onPlayStateChange: (isPlaying: boolean) => void;
   private onProgressChange: (progress: number) => void;
@@ -24,7 +25,7 @@ export class AudiobookPlayer {
     // Create utterances for each line
     textArray.forEach((text, index) => {
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.rate = 0.9; // Slightly slower for better comprehension
+      utterance.rate = this.currentRate;
       utterance.pitch = 1;
       utterance.volume = 1;
       
@@ -90,6 +91,8 @@ export class AudiobookPlayer {
     window.speechSynthesis.cancel();
     if (this.currentIndex < this.utterances.length - 1) {
       this.currentIndex++;
+      const progress = ((this.currentIndex + 1) / this.utterances.length) * 100;
+      this.onProgressChange(progress);
       this.playCurrentUtterance();
     }
   }
@@ -98,6 +101,8 @@ export class AudiobookPlayer {
     window.speechSynthesis.cancel();
     if (this.currentIndex > 0) {
       this.currentIndex--;
+      const progress = ((this.currentIndex + 1) / this.utterances.length) * 100;
+      this.onProgressChange(progress);
       this.playCurrentUtterance();
     }
   }
@@ -105,11 +110,14 @@ export class AudiobookPlayer {
   jumpToLine(index: number) {
     window.speechSynthesis.cancel();
     this.currentIndex = index;
+    const progress = ((index + 1) / this.utterances.length) * 100;
+    this.onProgressChange(progress);
     this.onHighlightChange(index);
     this.playCurrentUtterance();
   }
 
   setRate(rate: number) {
+    this.currentRate = rate;
     this.utterances.forEach(utterance => {
       utterance.rate = rate;
     });
