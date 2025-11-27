@@ -97,12 +97,14 @@ export const useAudioSync = (chapterData: ChapterData) => {
   }, []);
 
   const togglePlayPause = useCallback(() => {
-    if (state.isPlaying) {
-      pause();
-    } else {
-      play();
+    if (audioRef.current) {
+      if (audioRef.current.paused) {
+        audioRef.current.play();
+      } else {
+        audioRef.current.pause();
+      }
     }
-  }, [state.isPlaying, play, pause]);
+  }, []);
 
   const seek = useCallback((time: number) => {
     if (audioRef.current) {

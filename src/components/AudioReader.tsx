@@ -1,17 +1,22 @@
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
+import { Card } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Play,
   Pause,
   SkipBack,
   SkipForward,
   Volume2,
-  Lightbulb
+  Lightbulb,
+  X,
+  BookOpen,
+  ChevronRight,
+  Settings
 } from "lucide-react";
 import { useAudioSync } from "@/hooks/useAudioSync";
 import { ChapterData } from "@/lib/audioData";
-import { useState } from "react";
 
 interface AudioReaderProps {
   chapterData: ChapterData;
@@ -30,12 +35,18 @@ export const AudioReader = ({ chapterData }: AudioReaderProps) => {
     skipForward,
     skipBackward,
     setVolume,
+    setPlaybackRate,
     formatTime,
-    goToSentence
+    goToSentence,
+    play,
+    pause
   } = useAudioSync(chapterData);
 
   const [showClarify, setShowClarify] = useState(false);
   const [volume, setVolumeState] = useState(70);
+  const [speed, setSpeed] = useState(1);
+  const [wasPlayingBeforeClarify, setWasPlayingBeforeClarify] = useState(false);
+  const [clarifyContent, setClarifyContent] = useState<{ word: string; definition: string; explanation: string } | null>(null);
 
   const handleVolumeChange = (value: number[]) => {
     const newVolume = value[0];
@@ -43,81 +54,157 @@ export const AudioReader = ({ chapterData }: AudioReaderProps) => {
     setVolume(newVolume);
   };
 
-  const renderSentenceWithHighlighting = (sentence: any, index: number) => {
-    const isActive = currentSentenceIndex === index;
-
-    if (!sentence.words || sentence.words.length === 0) {
-      return (
-        <p
-          key={index}
-          onClick={() => goToSentence(index)}
-          className={`text-lg sm:text-xl leading-relaxed transition-all duration-300 cursor-pointer ${
-            isActive
-              ? "bg-highlight text-highlight-foreground px-3 py-2 rounded-md font-semibold scale-[1.02]"
-              : "text-muted-foreground hover:text-foreground"
-          }`}
-        >
-          {sentence.text}
-        </p>
-      );
-    }
-
-    return (
-      <p
-        key={index}
-        onClick={() => goToSentence(index)}
-        className="text-lg sm:text-xl leading-relaxed cursor-pointer py-2"
-      >
-        {sentence.words.map((word: any, wordIdx: number) => {
-          const isWordActive = isActive && currentWordIndex === wordIdx;
-
-          return (
-            <span
-              key={wordIdx}
-              className={`transition-all duration-150 inline-block mx-0.5 ${
-                isWordActive
-                  ? "bg-highlight text-highlight-foreground px-1 rounded font-semibold scale-105"
-                  : isActive
-                  ? "text-foreground"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              {word.word}
-            </span>
-          );
-        })}
-      </p>
-    );
+  const handleSpeedChange = (newSpeed: number) => {
+    setSpeed(newSpeed);
+    setPlaybackRate(newSpeed);
   };
 
-  const getClarifyContent = () => {
-    if (currentSentenceIndex < 0) return null;
+  // Helper function to determine if sentence is in the visible reading window (3-4 lines around current)
+  const getVisibleRange = () => {
+    const rangeSize = 2; // Show 2 sentences before and after current (total ~4-5 sentences)
+    const start = Math.max(0, currentSentenceIndex - rangeSize);
+    const end = Math.min(chapterData.sentences.length - 1, currentSentenceIndex + rangeSize);
+    return { start, end };
+  };
 
-    const sentence = chapterData.sentences[currentSentenceIndex];
+  const extractComplexWords = (sentence: string) => {
+    const words = sentence.split(' ').map(w => w.replace(/[.,!?;:"']/g, ''));
 
+    // Common word dictionary for filtering
+    const commonWords = new Set([
+      'the', 'be', 'to', 'of', 'and', 'a', 'in', 'that', 'have', 'i',
+      'it', 'for', 'not', 'on', 'with', 'he', 'as', 'you', 'do', 'at',
+      'this', 'but', 'his', 'by', 'from', 'they', 'we', 'say', 'her', 'she',
+      'or', 'an', 'will', 'my', 'one', 'all', 'would', 'there', 'their',
+      'what', 'so', 'up', 'out', 'if', 'about', 'who', 'get', 'which', 'go',
+      'me', 'when', 'make', 'can', 'like', 'time', 'no', 'just', 'him', 'know',
+      'take', 'people', 'into', 'year', 'your', 'good', 'some', 'could', 'them',
+      'see', 'other', 'than', 'then', 'now', 'look', 'only', 'come', 'its', 'over',
+      'think', 'also', 'back', 'after', 'use', 'two', 'how', 'our', 'work', 'first',
+      'well', 'way', 'even', 'new', 'want', 'because', 'any', 'these', 'give', 'day',
+      'most', 'us', 'is', 'was', 'are', 'been', 'has', 'had', 'were', 'said', 'did',
+      'am', 'may', 'might', 'must', 'shall', 'should', 'very', 'more', 'much', 'many'
+    ]);
+
+    // Extended definitions for complex words
     const definitions: Record<string, string> = {
+      "vulnerable": "Easily hurt or influenced; open to being harmed",
       "Science": "The study of the natural world through observation and experiment",
       "physics": "The science that studies matter, energy, force, and motion",
       "electricity": "A form of energy that powers many devices we use every day",
       "biology": "The science of living things, including plants, animals, and humans",
       "chemistry": "The science that studies what things are made of and how they change",
-      "nutrients": "Substances in food that help your body grow and stay healthy"
+      "nutrients": "Substances in food that help your body grow and stay healthy",
+      "consequence": "The result or effect of an action or condition",
+      "inclined": "Having a tendency or preference toward something",
+      "judgments": "Opinions or decisions formed after careful thought",
+      "curious": "Eager to know or learn something; showing interest",
+      "veteran": "A person with long experience in a particular field",
+      "bores": "People or things that are dull and uninteresting",
+      "abnormal": "Different from what is usual or expected; not normal",
+      "detect": "To discover or notice something, especially something hidden",
+      "attach": "To fasten or join one thing to another",
+      "quality": "A distinctive characteristic or feature of something",
+      "appears": "Seems to be; comes into view",
+      "normal": "Conforming to a standard; usual or typical",
+      "accused": "Charged with doing something wrong or illegal",
+      "politician": "A person involved in government or politics",
+      "privy": "Sharing in the knowledge of something secret or private",
+      "secret": "Something kept hidden or unknown to others",
+      "griefs": "Deep sorrows or sadness, especially caused by loss",
+      "wild": "Living in nature; not tamed or controlled",
+      "unknown": "Not known or familiar; mysterious",
+      "advice": "Guidance or recommendations offered for future action",
+      "turning": "Rotating or changing direction; considering repeatedly",
+      "criticizing": "Expressing disapproval or finding fault with something",
+      "advantages": "Beneficial features or favorable circumstances",
+      "communicative": "Willing and able to talk and share information",
+      "reserved": "Slow to reveal emotions or opinions; keeping back",
+      "understood": "Grasped the meaning of; comprehended",
+      "unjustly": "In an unfair or wrong manner"
     };
 
-    const explanations: Record<string, string> = {
-      0: "This sentence tells us that science is everywhere in our daily lives. From morning to night, scientific principles are at work all around us.",
-      1: "Science helps us make sense of our world. It answers questions about why things happen and how they work.",
-      2: "This is an example of electricity, which is a type of energy. When you flip a switch, you complete an electrical circuit that allows power to flow.",
-      3: "Physics is one branch of science. It studies things like energy, forces, and how objects move.",
-      4: "Your body is like a chemistry lab. It breaks down food into smaller parts that give you the energy to think, move, and grow.",
-      5: "Biology studies living things, and chemistry studies what things are made of. Together, they help us understand how our bodies work."
-    };
+    const complexWords: Array<{ word: string; definition: string }> = [];
 
-    const wordsInSentence = sentence.text.split(' ');
-    const foundWord = wordsInSentence.find(w => {
-      const cleanWord = w.replace(/[.,]/g, '');
-      return definitions[cleanWord];
+    words.forEach(word => {
+      const lowerWord = word.toLowerCase();
+      const capitalizedWord = word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+
+      if (definitions[word] || definitions[lowerWord] || definitions[capitalizedWord]) {
+        const definition = definitions[word] || definitions[lowerWord] || definitions[capitalizedWord];
+        complexWords.push({ word, definition });
+      } else if (
+        word.length > 7 &&
+        !commonWords.has(lowerWord) &&
+        /^[a-zA-Z]+$/.test(word)
+      ) {
+        complexWords.push({
+          word,
+          definition: `A word that may need clarification. Consider looking it up for better understanding.`
+        });
+      }
     });
+
+    return complexWords;
+  };
+
+  // Generate contextual explanation for a sentence
+  const generateSentenceExplanation = (sentence: any, index: number): string => {
+    const specificExplanations: Record<number, string> = {
+      0: "Nick is reflecting on advice from his father that he received when he was young and impressionable. This advice has stayed with him throughout his life.",
+      1: "Nick's father taught him not to judge others harshly, reminding him that not everyone has had the same opportunities and advantages in life.",
+      2: "Nick's father didn't explain further, but Nick understood the deeper meaning: his father valued thoughtful communication and wanted Nick to be empathetic.",
+      3: "Because of this advice, Nick tends to listen without judging, which has led many people to confide in him - though some have been boring.",
+      4: "People who are unusual or troubled can sense when someone won't judge them, and they're drawn to that quality.",
+      5: "In college, Nick's non-judgmental listening made people think he was politically minded, when really he was just being a good listener to troubled classmates."
+    };
+
+    if (specificExplanations[index]) {
+      return specificExplanations[index];
+    }
+
+    const text = sentence.text.toLowerCase();
+
+    if (text.includes('father') || text.includes('mother') || text.includes('parent')) {
+      return "This passage discusses advice or wisdom passed down from a parent, which often shapes how we think and behave.";
+    }
+    if (text.includes('advice') || text.includes('told me')) {
+      return "The narrator is reflecting on guidance they received, showing how words from others can influence our lives.";
+    }
+    if (text.includes('always') || text.includes('never')) {
+      return "This sentence describes a pattern or habit, something that happens consistently over time.";
+    }
+    if (text.includes('college') || text.includes('school') || text.includes('university')) {
+      return "This passage refers to an educational experience and what the narrator learned during that time.";
+    }
+
+    return "This sentence adds important context to the story. Think about how it connects to what came before and what might come after.";
+  };
+
+  const getClarifyContent = () => {
+    if (currentSentenceIndex < 0 || currentSentenceIndex >= chapterData.sentences.length) {
+      return null;
+    }
+
+    const sentence = chapterData.sentences[currentSentenceIndex];
+    const complexWords = extractComplexWords(sentence.text);
+    const explanation = generateSentenceExplanation(sentence, currentSentenceIndex);
+
+    if (complexWords.length === 0 && !explanation) {
+      return (
+        <Card className="p-6 space-y-4 bg-primary/5 border-primary/20">
+          <h3 className="font-semibold text-lg flex items-center gap-2">
+            <Lightbulb className="w-5 h-5 text-primary" />
+            Understanding this passage
+          </h3>
+          <div className="bg-card p-4 rounded-md">
+            <p className="text-base leading-relaxed text-muted-foreground">
+              This sentence seems clear! If you need help understanding any specific words or concepts, feel free to pause and think about the context.
+            </p>
+          </div>
+        </Card>
+      );
+    }
 
     return (
       <Card className="p-6 space-y-4 bg-primary/5 border-primary/20">
@@ -127,24 +214,31 @@ export const AudioReader = ({ chapterData }: AudioReaderProps) => {
         </h3>
 
         <div className="space-y-3">
-          {foundWord && (
-            <div className="bg-card p-4 rounded-md">
+          {complexWords.length > 0 && (
+            <div className="bg-card p-4 rounded-md space-y-3">
               <p className="text-sm font-semibold text-muted-foreground mb-2">
-                Word: "{foundWord.replace(/[.,]/g, '')}"
+                {complexWords.length === 1 ? 'Key word:' : 'Key words:'}
               </p>
-              <p className="text-base">
-                {definitions[foundWord.replace(/[.,]/g, '')]}
-              </p>
+              {complexWords.map((item, idx) => (
+                <div key={idx} className="mb-2 last:mb-0">
+                  <p className="text-sm font-semibold text-primary">
+                    "{item.word}"
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    {item.definition}
+                  </p>
+                </div>
+              ))}
             </div>
           )}
 
-          {explanations[currentSentenceIndex] && (
+          {explanation && (
             <div className="bg-card p-4 rounded-md">
               <p className="text-sm font-semibold text-muted-foreground mb-2">
-                What this means:
+                Context:
               </p>
-              <p className="text-base leading-relaxed">
-                {explanations[currentSentenceIndex]}
+              <p className="text-base leading-relaxed text-foreground">
+                {explanation}
               </p>
             </div>
           )}
@@ -153,88 +247,183 @@ export const AudioReader = ({ chapterData }: AudioReaderProps) => {
     );
   };
 
+  const handleClarifyClick = () => {
+    if (isPlaying) {
+      setWasPlayingBeforeClarify(true);
+      pause();
+    } else {
+      setWasPlayingBeforeClarify(false);
+    }
+    setShowClarify(true);
+  };
+
+  const handleCloseClarify = () => {
+    setShowClarify(false);
+    if (wasPlayingBeforeClarify) {
+      play();
+    }
+  };
+
+  const renderSentenceWithHighlighting = (sentence: any, index: number) => {
+    const isActive = currentSentenceIndex === index;
+    const visibleRange = getVisibleRange();
+    const isInVisibleRange = index >= visibleRange.start && index <= visibleRange.end;
+
+    return (
+      <p
+        key={index}
+        onClick={() => goToSentence(index)}
+        className={`text-lg sm:text-xl leading-relaxed transition-all duration-300 cursor-pointer px-3 py-2 rounded-md ${isActive
+          ? "bg-highlight text-highlight-foreground font-semibold scale-[1.02]"
+          : isInVisibleRange
+            ? "bg-muted/20 text-foreground"
+            : "text-muted-foreground hover:text-foreground"
+          }`}
+      >
+        {sentence.text}
+      </p>
+    );
+  };
+
   return (
-    <div className="flex-1 flex flex-col">
-      <div className="flex-1 flex items-center justify-center p-4 sm:p-6 overflow-auto">
-        <div className="max-w-3xl w-full space-y-6">
-          <Card className="p-6 sm:p-8 space-y-3 bg-card/80 backdrop-blur">
+    <div className="flex-1 flex flex-col max-w-4xl mx-auto w-full p-4 gap-6">
+      <div className="flex-1 relative">
+        <ScrollArea className="h-[calc(100vh-300px)] w-full rounded-md border p-4">
+          <div className="space-y-6 pb-20">
             {chapterData.sentences.map((sentence, index) =>
               renderSentenceWithHighlighting(sentence, index)
             )}
-          </Card>
 
-          <Button
-            onClick={() => setShowClarify(!showClarify)}
-            variant={showClarify ? "default" : "outline"}
-            className="w-full h-12 sm:h-14 text-base sm:text-lg font-semibold"
-          >
-            <Lightbulb className="w-5 h-5 mr-2" />
-            {showClarify ? "Hide Help" : "Need Help? Tap to Clarify"}
-          </Button>
+            {/* Unsynced Content */}
+            {chapterData.content && (
+              <div className="mt-8 pt-8 border-t border-border">
+                <div className="flex items-center gap-2 mb-4 text-muted-foreground">
+                  <BookOpen className="w-4 h-4" />
+                  <span className="text-sm font-medium uppercase tracking-wider">Continue Reading</span>
+                </div>
+                <div className="prose prose-lg dark:prose-invert max-w-none">
+                  {chapterData.content.split('\n\n').map((paragraph, idx) => (
+                    <p key={idx} className="text-lg sm:text-xl leading-relaxed text-muted-foreground mb-6">
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </ScrollArea>
 
-          {showClarify && getClarifyContent()}
-        </div>
-      </div>
-
-      <div className="bg-card border-t border-border p-4 sm:p-6 space-y-4">
-        <div className="max-w-3xl mx-auto space-y-4">
-          <div className="space-y-2">
-            <Slider
-              value={[progress]}
-              max={100}
-              step={0.1}
-              onValueChange={(value) => seekToProgress(value[0])}
-            />
-            <div className="flex justify-between text-xs text-muted-foreground">
-              <span>{formatTime(currentTime)}</span>
-              <span>{formatTime(duration)}</span>
+        {/* Clarify Overlay/Panel */}
+        {showClarify && (
+          <div className="absolute inset-0 bg-background/95 backdrop-blur-sm z-20 p-4 animate-in fade-in duration-200">
+            <div className="h-full flex flex-col">
+              <div className="flex justify-end mb-4">
+                <Button variant="ghost" size="icon" onClick={handleCloseClarify}>
+                  <X className="w-6 h-6" />
+                </Button>
+              </div>
+              <ScrollArea className="flex-1">
+                {getClarifyContent()}
+              </ScrollArea>
             </div>
           </div>
+        )}
+      </div>
 
-          <div className="flex items-center justify-center gap-3 sm:gap-4">
+      {/* Controls */}
+      <Card className="p-4 space-y-4 bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/75 sticky bottom-0 z-10 shadow-lg border-t">
+        <div className="space-y-2">
+          <div className="flex justify-between text-xs text-muted-foreground font-medium">
+            <span>{formatTime(currentTime)}</span>
+            <span>{formatTime(duration)}</span>
+          </div>
+          <Slider
+            value={[progress]}
+            max={100}
+            step={0.1}
+            onValueChange={(value) => seekToProgress(value[0])}
+            className="cursor-pointer"
+          />
+        </div>
+
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setVolumeState(v => Math.max(0, v - 10))}
+              className="hidden sm:flex"
+            >
+              <Volume2 className="w-4 h-4" />
+            </Button>
+            <Slider
+              value={[volume]}
+              max={100}
+              onValueChange={handleVolumeChange}
+              className="w-20 hidden sm:flex"
+            />
+          </div>
+
+          <div className="flex items-center gap-3 sm:gap-6">
             <Button
               variant="outline"
               size="icon"
-              className="h-11 w-11 sm:h-12 sm:w-12"
-              onClick={() => skipBackward(5)}
+              className="h-10 w-10 rounded-full hover:bg-secondary"
+              onClick={() => skipBackward()}
             >
               <SkipBack className="w-5 h-5" />
             </Button>
 
             <Button
               size="icon"
-              className="h-14 w-14 sm:h-16 sm:w-16"
+              className="h-14 w-14 rounded-full shadow-lg hover:scale-105 transition-transform"
               onClick={togglePlayPause}
             >
               {isPlaying ? (
-                <Pause className="w-6 h-6" />
+                <Pause className="w-7 h-7" />
               ) : (
-                <Play className="w-6 h-6 ml-1" />
+                <Play className="w-7 h-7 ml-1" />
               )}
             </Button>
 
             <Button
               variant="outline"
               size="icon"
-              className="h-11 w-11 sm:h-12 sm:w-12"
-              onClick={() => skipForward(5)}
+              className="h-10 w-10 rounded-full hover:bg-secondary"
+              onClick={() => skipForward()}
             >
               <SkipForward className="w-5 h-5" />
             </Button>
           </div>
 
-          <div className="flex items-center gap-3">
-            <Volume2 className="w-5 h-5 text-muted-foreground" />
-            <Slider
-              value={[volume]}
-              max={100}
-              step={1}
-              className="flex-1"
-              onValueChange={handleVolumeChange}
-            />
+          <div className="flex items-center gap-2">
+            <Button
+              variant={showClarify ? "default" : "outline"}
+              size="sm"
+              onClick={handleClarifyClick}
+              className="hidden sm:flex gap-2"
+            >
+              <Lightbulb className="w-4 h-4" />
+              Clarify
+            </Button>
+
+            <div className="flex items-center gap-1 bg-secondary/50 rounded-lg p-1">
+              {[0.85, 1, 1.15, 1.3].map((s) => (
+                <button
+                  key={s}
+                  onClick={() => handleSpeedChange(s)}
+                  className={`px-2 py-1 text-xs font-medium rounded-md transition-colors ${speed === s
+                      ? "bg-background shadow-sm text-foreground"
+                      : "text-muted-foreground hover:text-foreground"
+                    }`}
+                >
+                  {s === 0.85 ? "0.5x" : s === 1 ? "1x" : s === 1.15 ? "1.5x" : "2x"}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      </Card>
     </div>
   );
 };

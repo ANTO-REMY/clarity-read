@@ -9,6 +9,8 @@ import FontSelection from "./pages/FontSelection";
 import ColorTheme from "./pages/ColorTheme";
 import Library from "./pages/Library";
 import Reader from "./pages/Reader";
+import ChapterSelection from "./pages/ChapterSelection";
+import BookPreview from "./pages/BookPreview";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 
@@ -25,7 +27,10 @@ const App = () => (
           <Route path="/font-selection" element={<FontSelection />} />
           <Route path="/color-theme" element={<ColorTheme />} />
           <Route path="/library" element={<Library />} />
-          <Route path="/reader" element={<Reader />} />
+          <Route path="/book/:bookId" element={<ChapterSelection />} />
+          <Route path="/book-preview/:bookId" element={<BookPreview />} />
+          <Route path="/reader/:chapterId" element={<Reader />} />
+          <Route path="/reader" element={<Reader />} /> {/* Fallback for existing links */}
           <Route path="/settings" element={<Settings />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
