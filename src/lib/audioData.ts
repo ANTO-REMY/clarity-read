@@ -44,7 +44,7 @@ export const greatGatsbyChapter1: ChapterData = {
   title: "The Great Gatsby",
   chapter: "Chapter 1",
   audioUrl: "/audio/great-gatsby/greatgatsby_01_fitzgerald_64kb.mp3",
-  duration: 1680, // ~28 mins
+  duration: 2583, // 43:03 in seconds
   prep: {
     characters: [
       { name: "Nick Carraway", description: "The narrator, a young man from Minnesota who moves to New York." },
@@ -313,16 +313,96 @@ export const greatGatsbyBook: Book = {
   level: "advanced",
   totalChapters: 9,
   chapters: [
-    { id: "gatsby-ch1", title: "Chapter 1", duration: "28:00" },
-    { id: "gatsby-ch2", title: "Chapter 2", duration: "25:00" },
-    { id: "gatsby-ch3", title: "Chapter 3", duration: "30:00" },
-    { id: "gatsby-ch4", title: "Chapter 4", duration: "27:00" },
-    { id: "gatsby-ch5", title: "Chapter 5", duration: "24:00" },
-    { id: "gatsby-ch6", title: "Chapter 6", duration: "26:00" },
-    { id: "gatsby-ch7", title: "Chapter 7", duration: "35:00" },
-    { id: "gatsby-ch8", title: "Chapter 8", duration: "29:00" },
-    { id: "gatsby-ch9", title: "Chapter 9", duration: "32:00" }
+    { id: "gatsby-ch1", title: "Chapter 1", duration: "43:03" },
+    { id: "gatsby-ch2", title: "Chapter 2", duration: "29:39" },
+    { id: "gatsby-ch3", title: "Chapter 3", duration: "39:38" },
+    { id: "gatsby-ch4", title: "Chapter 4", duration: "37:18" },
+    { id: "gatsby-ch5", title: "Chapter 5", duration: "30:01" },
+    { id: "gatsby-ch6", title: "Chapter 6", duration: "29:11" },
+    { id: "gatsby-ch7", title: "Chapter 7", duration: "62:56" },
+    { id: "gatsby-ch8", title: "Chapter 8", duration: "30:57" },
+    { id: "gatsby-ch9", title: "Chapter 9", duration: "35:16" }
   ]
+};
+
+export const greatGatsbyChapter2: ChapterData = {
+  id: "gatsby-ch2",
+  title: "The Great Gatsby",
+  chapter: "Chapter 2",
+  audioUrl: "/audio/great-gatsby/greatgatsby_02_fitzgerald_64kb.mp3",
+  duration: 1779, // 29:39 in seconds
+  sentences: [],
+  content: "About half way between West Egg and New York the motor road hastily joins the railroad and runs beside it for a quarter of a mile, so as to shrink away from a certain desolate area of land. This is a valley of ashes—a fantastic farm where ashes grow like wheat into ridges and hills and grotesque gardens; where ashes take the forms of houses and chimneys and rising smoke and, finally, with a transcendent effort, of men who move dimly and already crumbling through the powdery air."
+};
+
+export const greatGatsbyChapter3: ChapterData = {
+  id: "gatsby-ch3",
+  title: "The Great Gatsby",
+  chapter: "Chapter 3",
+  audioUrl: "/audio/great-gatsby/greatgatsby_03_fitzgerald_64kb.mp3",
+  duration: 2378, // 39:38 in seconds
+  sentences: [],
+  content: "There was music from my neighbor's house through the summer nights. In his blue gardens men and girls came and went like moths among the whisperings and the champagne and the stars. At high tide in the afternoon I watched his guests diving from the tower of his raft, or taking the sun on the hot sand of his beach while his two motor-boats slit the waters of the Sound, drawing aquaplanes over cataracts of foam."
+};
+
+export const greatGatsbyChapter4: ChapterData = {
+  id: "gatsby-ch4",
+  title: "The Great Gatsby",
+  chapter: "Chapter 4",
+  audioUrl: "/audio/great-gatsby/greatgatsby_04_fitzgerald_64kb.mp3",
+  duration: 2238, // 37:18 in seconds
+  sentences: [],
+  content: "On Sunday morning while church bells rang in the villages alongshore, the world and its mistress returned to Gatsby's house and twinkled hilariously on his lawn. 'He's a bootlegger,' said the young ladies, moving somewhere between his cocktails and his flowers. 'One time he killed a man who had found out that he was nephew to Von Hindenburg and second cousin to the devil.'"
+};
+
+export const greatGatsbyChapter5: ChapterData = {
+  id: "gatsby-ch5",
+  title: "The Great Gatsby",
+  chapter: "Chapter 5",
+  audioUrl: "/audio/great-gatsby/greatgatsby_05_fitzgerald_64kb.mp3",
+  duration: 1801, // 30:01 in seconds
+  sentences: [],
+  content: "When I came home to West Egg that night I was afraid for a moment that my house was on fire. Two o'clock and the whole corner of the peninsula was blazing with light, which fell unreal on the shrubbery and made thin elongating glints upon the roadside wires. Turning a corner, I saw that it was Gatsby's house, lit from tower to cellar."
+};
+
+export const greatGatsbyChapter6: ChapterData = {
+  id: "gatsby-ch6",
+  title: "The Great Gatsby",
+  chapter: "Chapter 6",
+  audioUrl: "/audio/great-gatsby/greatgatsby_06_fitzgerald_64kb.mp3",
+  duration: 1751, // 29:11 in seconds
+  sentences: [],
+  content: "About this time an ambitious young reporter from New York arrived one morning at Gatsby's door and asked him if he had anything to say. 'Anything to say about what?' inquired Gatsby politely. 'Why—any statement to give out.' It was a random shot, and yet the reporter's instinct was right. Gatsby's notoriety, spread about by the hundreds who had accepted his hospitality and so become authorities upon his past, had increased all summer until he fell just short of being news."
+};
+
+export const greatGatsbyChapter7: ChapterData = {
+  id: "gatsby-ch7",
+  title: "The Great Gatsby",
+  chapter: "Chapter 7",
+  audioUrl: "/audio/great-gatsby/greatgatsby_07_fitzgerald_64kb.mp3",
+  duration: 3776, // 62:56 in seconds
+  sentences: [],
+  content: "It was when curiosity about Gatsby was at its highest that the lights in his house failed to go on one Saturday night—and, as obscurely as it had begun, his career as Trimalchio was over. Only gradually did I become aware that the automobiles which turned expectantly into his drive stayed for just a minute and then drove sulkily away. Wondering if he were sick I went over to find out—an unfamiliar butler with a villainous face squinted at me suspiciously from the door."
+};
+
+export const greatGatsbyChapter8: ChapterData = {
+  id: "gatsby-ch8",
+  title: "The Great Gatsby",
+  chapter: "Chapter 8",
+  audioUrl: "/audio/great-gatsby/greatgatsby_08_fitzgerald_64kb.mp3",
+  duration: 1857, // 30:57 in seconds
+  sentences: [],
+  content: "I couldn't sleep all night; a fog-horn was groaning incessantly on the Sound, and I tossed half-sick between grotesque reality and savage, frightening dreams. Toward dawn I heard a taxi go up Gatsby's drive, and immediately I jumped out of bed and began to dress—I felt that I had something to tell him, something to warn him about, and morning would be too late."
+};
+
+export const greatGatsbyChapter9: ChapterData = {
+  id: "gatsby-ch9",
+  title: "The Great Gatsby",
+  chapter: "Chapter 9",
+  audioUrl: "/audio/great-gatsby/greatgatsby_09_fitzgerald_64kb.mp3",
+  duration: 2116, // 35:16 in seconds
+  sentences: [],
+  content: "After two years I remember the rest of that day, and that night and the next day, only as an endless drill of police and photographers and newspaper men in and out of Gatsby's front door. A rope stretched across the main gate and a policeman by it kept out the curious, but little boys soon discovered that they could enter through my yard, and there were always a few of them clustered open-mouthed about the pool."
 };
 
 export const scienceMadeSimpleChapter1: ChapterData = {
@@ -392,3 +472,21 @@ export const scienceMadeSimpleChapter1: ChapterData = {
     }
   ]
 };
+
+// Chapter Registry for dynamic chapter lookup
+export const chapterRegistry: Record<string, ChapterData> = {
+  'gatsby-ch1': greatGatsbyChapter1,
+  'gatsby-ch2': greatGatsbyChapter2,
+  'gatsby-ch3': greatGatsbyChapter3,
+  'gatsby-ch4': greatGatsbyChapter4,
+  'gatsby-ch5': greatGatsbyChapter5,
+  'gatsby-ch6': greatGatsbyChapter6,
+  'gatsby-ch7': greatGatsbyChapter7,
+  'gatsby-ch8': greatGatsbyChapter8,
+  'gatsby-ch9': greatGatsbyChapter9,
+  'science-ch1': scienceMadeSimpleChapter1,
+};
+
+export function getChapterById(chapterId: string): ChapterData | null {
+  return chapterRegistry[chapterId] || null;
+}

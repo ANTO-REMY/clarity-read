@@ -2,15 +2,16 @@ import { Button } from "@/components/ui/button";
 import { useNavigate, useParams } from "react-router-dom";
 import { ChevronLeft, Settings } from "lucide-react";
 import { AudioReader } from "@/components/AudioReader";
-import { greatGatsbyChapter1 } from "@/lib/audioData";
+import { getChapterById, greatGatsbyChapter1 } from "@/lib/audioData";
 
 const Reader = () => {
   const navigate = useNavigate();
   const { chapterId } = useParams();
 
-  // In a real app, we'd fetch the chapter data based on ID
-  // For now, we'll use our hardcoded chapter if it matches, otherwise default to it for demo
-  const chapterData = chapterId === "gatsby-ch1" ? greatGatsbyChapter1 : greatGatsbyChapter1;
+  // Look up chapter data by ID, fallback to chapter 1
+  const chapterData = chapterId 
+    ? getChapterById(chapterId) || greatGatsbyChapter1
+    : greatGatsbyChapter1;
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
