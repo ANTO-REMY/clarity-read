@@ -12,11 +12,14 @@ interface AudioSyncState {
 
 export const useAudioSync = (chapterData: ChapterData) => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  // Chapter 1 has a 20-second introduction before the text starts
+  const audioOffset = chapterData.id === 'gatsby-ch1' ? 20 : 0;
+  
   const [state, setState] = useState<AudioSyncState>({
     isPlaying: false,
     currentTime: 0,
     duration: chapterData.duration,
-    currentSentenceIndex: 0,
+    currentSentenceIndex: -1,
     currentWordIndex: -1,
     progress: 0
   });
@@ -33,9 +36,15 @@ export const useAudioSync = (chapterData: ChapterData) => {
       const currentTime = audio.currentTime;
       const progress = (currentTime / audio.duration) * 100;
 
-      const sentenceIndex = findCurrentSentence(currentTime, chapterData.sentences);
+      // Adjust time for audio offset (e.g., 20s intro for Chapter 1)
+      const adjustedTime = currentTime - audioOffset;
+      
+      // Only find sentence if we're past the offset
+      const sentenceIndex = adjustedTime >= 0 
+        ? findCurrentSentence(adjustedTime, chapterData.sentences)
+        : -1;
       const wordIndex = sentenceIndex >= 0
-        ? findCurrentWord(currentTime, chapterData.sentences[sentenceIndex].words)
+        ? findCurrentWord(adjustedTime, chapterData.sentences[sentenceIndex].words)
         : -1;
 
       setState(prev => ({
@@ -151,9 +160,10 @@ export const useAudioSync = (chapterData: ChapterData) => {
 
   const goToSentence = useCallback((index: number) => {
     if (index >= 0 && index < chapterData.sentences.length) {
-      seek(chapterData.sentences[index].start);
+      // Add offset when seeking to a sentence
+      seek(chapterData.sentences[index].start + audioOffset);
     }
-  }, [chapterData.sentences, seek]);
+  }, [chapterData.sentences, seek, audioOffset]);
 
   const formatTime = (seconds: number): string => {
     const mins = Math.floor(seconds / 60);
