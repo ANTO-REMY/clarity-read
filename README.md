@@ -1,3 +1,64 @@
+Clarity-Read Architecture Diagram
+
+```mermaid
+flowchart TD
+	subgraph UI[UI / Presentation Layer]
+		Library[Library Interface]
+		Reader[Reader Interface]
+		Clarify[Clarify Interface]
+		Settings[Settings Interface]
+	end
+
+	subgraph Logic[Application Logic Layer]
+		LibraryManager[Library Manager]
+		ReaderManager[Reader Component]
+		ClarifyManager[Clarify Modal/Panel]
+		SettingsManager[User Preferences Manager]
+		AudioSync[Audio–Text Synchronization Engine]
+		HighlightEngine[Highlighting Engine]
+	end
+
+	subgraph Data[Data & Persistence Layer]
+		LocalData[(LocalStorage / IndexedDB)]
+		BookData[Book & Chapter Data]
+	end
+
+	subgraph Browser[Browser APIs]
+		WebAudio[Web Audio API]
+		SpeechSynthesis[SpeechSynthesis API]
+		StorageAPI[LocalStorage]
+	end
+
+	%% UI to Logic
+	Library --> LibraryManager
+	Reader --> ReaderManager
+	Clarify --> ClarifyManager
+	Settings --> SettingsManager
+
+	%% Logic to Logic
+	ReaderManager --> AudioSync
+	ReaderManager --> HighlightEngine
+	ClarifyManager --> HighlightEngine
+	SettingsManager --> HighlightEngine
+	SettingsManager --> AudioSync
+
+	%% Logic to Data
+	LibraryManager --> BookData
+	SettingsManager --> LocalData
+
+	%% Logic to Browser APIs
+	AudioSync --> WebAudio
+	AudioSync --> SpeechSynthesis
+	HighlightEngine --> StorageAPI
+	SettingsManager --> StorageAPI
+
+	%% Data to Browser APIs
+	LocalData --> StorageAPI
+
+	%% Data flow arrows
+	BookData --> ReaderManager
+	LocalData --> SettingsManager
+```
 # CLARITY-READ
 
 CLARITY-READ is an HCI prototype: an active reading assistant designed to help people with dyslexia read more effectively by combining synchronized audio, contextual highlighting, and instant comprehension supports.
