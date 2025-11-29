@@ -55,23 +55,23 @@ export const ReadingCustomizerModal = ({ open, onOpenChange }: ReadingCustomizer
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Customize Your Reading</DialogTitle>
+          <DialogTitle className="text-xl">Customize Your Reading</DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-6 py-4">
+        <div className="space-y-7 py-6">
           {/* Font Selection */}
-          <div className="space-y-3">
-            <h3 className="text-sm font-semibold flex items-center gap-2">
+          <div className="space-y-4">
+            <h3 className="text-base font-semibold flex items-center gap-2">
               📝 Font Style
             </h3>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-3">
               {fonts.map((font) => (
                 <button
                   key={font.value}
                   onClick={() => updateSettings({ fontFamily: font.value })}
-                  className={`p-3 rounded-md border-2 transition-all ${
+                  className={`p-4 min-h-[52px] rounded-md border-2 transition-all text-base focus:ring-2 focus:ring-primary focus:ring-offset-2 ${
                     settings.fontFamily === font.value
                       ? 'border-primary bg-primary/10'
                       : 'border-border hover:border-primary/50'
@@ -85,84 +85,108 @@ export const ReadingCustomizerModal = ({ open, onOpenChange }: ReadingCustomizer
           </div>
 
           {/* Text Spacing */}
-          <div className="space-y-4">
-            <h3 className="text-sm font-semibold flex items-center gap-2">
+          <div className="space-y-5">
+            <h3 className="text-base font-semibold flex items-center gap-2">
               📏 Text Spacing
             </h3>
 
             {/* Letter Spacing */}
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <span>Letter Spacing</span>
+            <div className="space-y-3">
+              <div className="flex justify-between text-base">
+                <span className="font-medium">Letter Spacing</span>
                 <span className="text-muted-foreground">
                   {letterSpacingOptions.find(o => o.value === settings.letterSpacing)?.label}
                 </span>
               </div>
-              <Slider
-                value={[letterSpacingOptions.find(o => o.value === settings.letterSpacing)?.numValue || 0]}
-                max={2}
-                step={1}
-                onValueChange={(value) => {
-                  const option = letterSpacingOptions[value[0]];
-                  updateSettings({ letterSpacing: option.value });
-                }}
-              />
+              <div className="relative">
+                <Slider
+                  value={[letterSpacingOptions.find(o => o.value === settings.letterSpacing)?.numValue || 0]}
+                  max={2}
+                  step={1}
+                  onValueChange={(value) => {
+                    const option = letterSpacingOptions[value[0]];
+                    updateSettings({ letterSpacing: option.value });
+                  }}
+                  className="h-2"
+                />
+                <div className="flex justify-between mt-2 px-1">
+                  <div className="w-0.5 h-3 bg-muted-foreground rounded-full"></div>
+                  <div className="w-0.5 h-3 bg-muted-foreground rounded-full"></div>
+                  <div className="w-0.5 h-3 bg-muted-foreground rounded-full"></div>
+                </div>
+              </div>
             </div>
 
             {/* Line Height */}
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <span>Line Height</span>
+            <div className="space-y-3">
+              <div className="flex justify-between text-base">
+                <span className="font-medium">Line Height</span>
                 <span className="text-muted-foreground">
                   {lineHeightOptions.find(o => o.value === settings.lineHeight)?.label}
                 </span>
               </div>
-              <Slider
-                value={[lineHeightOptions.find(o => o.value === settings.lineHeight)?.numValue || 0]}
-                max={2}
-                step={1}
-                onValueChange={(value) => {
-                  const option = lineHeightOptions[value[0]];
-                  updateSettings({ lineHeight: option.value });
-                }}
-              />
+              <div className="relative">
+                <Slider
+                  value={[lineHeightOptions.find(o => o.value === settings.lineHeight)?.numValue || 0]}
+                  max={2}
+                  step={1}
+                  onValueChange={(value) => {
+                    const option = lineHeightOptions[value[0]];
+                    updateSettings({ lineHeight: option.value });
+                  }}
+                  className="h-2"
+                />
+                <div className="flex justify-between mt-2 px-1">
+                  <div className="w-0.5 h-3 bg-muted-foreground rounded-full"></div>
+                  <div className="w-0.5 h-3 bg-muted-foreground rounded-full"></div>
+                  <div className="w-0.5 h-3 bg-muted-foreground rounded-full"></div>
+                </div>
+              </div>
             </div>
 
             {/* Text Size */}
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <span>Text Size</span>
+            <div className="space-y-3">
+              <div className="flex justify-between text-base">
+                <span className="font-medium">Text Size</span>
                 <span className="text-muted-foreground">
                   {textSizeOptions.find(o => o.value === settings.textSize)?.label}
                 </span>
               </div>
-              <Slider
-                value={[textSizeOptions.find(o => o.value === settings.textSize)?.numValue || 0]}
-                max={2}
-                step={1}
-                onValueChange={(value) => {
-                  const option = textSizeOptions[value[0]];
-                  updateSettings({ textSize: option.value });
-                }}
-              />
+              <div className="relative">
+                <Slider
+                  value={[textSizeOptions.find(o => o.value === settings.textSize)?.numValue || 0]}
+                  max={2}
+                  step={1}
+                  onValueChange={(value) => {
+                    const option = textSizeOptions[value[0]];
+                    updateSettings({ textSize: option.value });
+                  }}
+                  className="h-2"
+                />
+                <div className="flex justify-between mt-2 px-1">
+                  <div className="w-0.5 h-3 bg-muted-foreground rounded-full"></div>
+                  <div className="w-0.5 h-3 bg-muted-foreground rounded-full"></div>
+                  <div className="w-0.5 h-3 bg-muted-foreground rounded-full"></div>
+                </div>
+              </div>
             </div>
           </div>
 
           {/* Visual Comfort */}
-          <div className="space-y-3">
-            <h3 className="text-sm font-semibold flex items-center gap-2">
+          <div className="space-y-4">
+            <h3 className="text-base font-semibold flex items-center gap-2">
               🎨 Visual Comfort
             </h3>
 
             {/* Background Color */}
-            <div className="space-y-2">
-              <span className="text-sm">Background</span>
-              <div className="grid grid-cols-4 gap-2">
+            <div className="space-y-3">
+              <span className="text-base font-medium">Background</span>
+              <div className="grid grid-cols-4 gap-3">
                 {backgroundColors.map((bg) => (
                   <button
                     key={bg.value}
                     onClick={() => updateSettings({ backgroundColor: bg.value })}
-                    className={`h-12 rounded-md transition-all ${
+                    className={`h-16 min-w-[64px] rounded-md transition-all focus:ring-2 focus:ring-primary focus:ring-offset-2 ${
                       settings.backgroundColor === bg.value
                         ? 'ring-2 ring-primary ring-offset-2'
                         : 'hover:ring-2 hover:ring-primary/50'
@@ -175,25 +199,25 @@ export const ReadingCustomizerModal = ({ open, onOpenChange }: ReadingCustomizer
             </div>
 
             {/* Text Color */}
-            <div className="space-y-2">
-              <span className="text-sm">Text Color</span>
-              <div className="flex gap-2">
+            <div className="space-y-3">
+              <span className="text-base font-medium">Text Color</span>
+              <div className="flex gap-3">
                 {textColors.map((tc) => (
                   <button
                     key={tc.value}
                     onClick={() => updateSettings({ textColor: tc.value })}
-                    className={`flex-1 p-3 rounded-md border-2 transition-all ${
+                    className={`flex-1 p-4 min-h-[52px] rounded-md border-2 transition-all focus:ring-2 focus:ring-primary focus:ring-offset-2 ${
                       settings.textColor === tc.value
                         ? 'border-primary bg-primary/10'
                         : 'border-border hover:border-primary/50'
                     }`}
                   >
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 justify-center">
                       <div
-                        className="w-4 h-4 rounded-full border"
+                        className="w-5 h-5 rounded-full border"
                         style={{ backgroundColor: tc.color }}
                       />
-                      <span className="text-sm">{tc.label}</span>
+                      <span className="text-base">{tc.label}</span>
                     </div>
                   </button>
                 ))}
@@ -201,14 +225,22 @@ export const ReadingCustomizerModal = ({ open, onOpenChange }: ReadingCustomizer
             </div>
           </div>
 
-          {/* Reset Button */}
-          <Button
-            variant="outline"
-            onClick={resetSettings}
-            className="w-full"
-          >
-            Reset to Default
-          </Button>
+          {/* Action Buttons */}
+          <div className="space-y-3">
+            <Button
+              onClick={() => onOpenChange(false)}
+              className="w-full h-12 text-base font-semibold focus:ring-2 focus:ring-primary focus:ring-offset-2"
+            >
+              OK
+            </Button>
+            <Button
+              variant="outline"
+              onClick={resetSettings}
+              className="w-full h-12 text-base font-medium focus:ring-2 focus:ring-primary focus:ring-offset-2"
+            >
+              Reset to Default
+            </Button>
+          </div>
         </div>
       </DialogContent>
     </Dialog>

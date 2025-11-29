@@ -276,7 +276,8 @@ export const AudioReader = ({ chapterData }: AudioReaderProps) => {
       <p
         key={index}
         onClick={() => goToSentence(index)}
-        className={`text-lg sm:text-xl leading-relaxed transition-all duration-300 cursor-pointer px-3 py-2 rounded-md ${isActive
+        style={customTextStyles}
+        className={`transition-all duration-300 cursor-pointer px-3 py-2 rounded-md ${isActive
           ? "bg-highlight text-highlight-foreground font-semibold scale-[1.02]"
           : isInVisibleRange
             ? "bg-muted/20 text-foreground"
@@ -309,7 +310,7 @@ export const AudioReader = ({ chapterData }: AudioReaderProps) => {
                 </div>
                 <div className="prose prose-lg dark:prose-invert max-w-none">
                   {chapterData.content.split('\n\n').map((paragraph, idx) => (
-                    <p key={idx} className="text-lg sm:text-xl leading-relaxed text-muted-foreground mb-6">
+                    <p key={idx} style={customTextStyles} className="text-muted-foreground mb-6">
                       {paragraph}
                     </p>
                   ))}
@@ -337,9 +338,9 @@ export const AudioReader = ({ chapterData }: AudioReaderProps) => {
       </div>
 
       {/* Controls */}
-      <Card className="p-4 space-y-4 bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/75 sticky bottom-0 z-10 shadow-lg border-t">
-        <div className="space-y-2">
-          <div className="flex justify-between text-xs text-muted-foreground font-medium">
+      <Card className="p-6 space-y-4 bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/75 sticky bottom-0 z-10 shadow-lg border-t">
+        <div className="space-y-3">
+          <div className="flex justify-between text-sm text-muted-foreground font-medium">
             <span>{formatTime(currentTime)}</span>
             <span>{formatTime(duration)}</span>
           </div>
@@ -348,77 +349,76 @@ export const AudioReader = ({ chapterData }: AudioReaderProps) => {
             max={100}
             step={0.1}
             onValueChange={(value) => seekToProgress(value[0])}
-            className="cursor-pointer"
+            className="cursor-pointer h-2"
           />
         </div>
 
-        <div className="flex items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
+        <div className="flex items-center justify-between gap-4 sm:gap-6">
+          <div className="flex items-center gap-3">
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setVolumeState(v => Math.max(0, v - 10))}
-              className="hidden sm:flex"
+              className="hidden sm:flex h-11 w-11"
             >
-              <Volume2 className="w-4 h-4" />
+              <Volume2 className="w-5 h-5" />
             </Button>
             <Slider
               value={[volume]}
               max={100}
               onValueChange={handleVolumeChange}
-              className="w-20 hidden sm:flex"
+              className="w-24 hidden sm:flex h-2"
             />
           </div>
 
-          <div className="flex items-center gap-3 sm:gap-6">
+          <div className="flex items-center gap-4 sm:gap-6">
             <Button
               variant="outline"
               size="icon"
-              className="h-10 w-10 rounded-full hover:bg-secondary"
+              className="h-12 w-12 rounded-full hover:bg-secondary focus:ring-2 focus:ring-primary focus:ring-offset-2"
               onClick={() => skipBackward()}
             >
-              <SkipBack className="w-5 h-5" />
+              <SkipBack className="w-6 h-6" />
             </Button>
 
             <Button
               size="icon"
-              className="h-14 w-14 rounded-full shadow-lg hover:scale-105 transition-transform"
+              className="h-16 w-16 rounded-full shadow-lg hover:scale-105 transition-transform focus:ring-2 focus:ring-primary focus:ring-offset-2"
               onClick={togglePlayPause}
             >
               {isPlaying ? (
-                <Pause className="w-7 h-7" />
+                <Pause className="w-8 h-8" />
               ) : (
-                <Play className="w-7 h-7 ml-1" />
+                <Play className="w-8 h-8 ml-1" />
               )}
             </Button>
 
             <Button
               variant="outline"
               size="icon"
-              className="h-10 w-10 rounded-full hover:bg-secondary"
+              className="h-12 w-12 rounded-full hover:bg-secondary focus:ring-2 focus:ring-primary focus:ring-offset-2"
               onClick={() => skipForward()}
             >
-              <SkipForward className="w-5 h-5" />
+              <SkipForward className="w-6 h-6" />
             </Button>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <Button
               variant={showClarify ? "default" : "outline"}
-              size="sm"
               onClick={handleClarifyClick}
-              className="hidden sm:flex gap-2"
+              className="hidden sm:flex gap-2 h-12 px-5 text-base font-medium focus:ring-2 focus:ring-primary focus:ring-offset-2"
             >
-              <Lightbulb className="w-4 h-4" />
+              <Lightbulb className="w-5 h-5" />
               Clarify
             </Button>
 
-            <div className="flex items-center gap-1 bg-secondary/50 rounded-lg p-1">
+            <div className="flex items-center gap-1.5 bg-secondary/50 rounded-lg p-1.5">
               {[0.85, 1, 1.15, 1.3].map((s) => (
                 <button
                   key={s}
                   onClick={() => handleSpeedChange(s)}
-                  className={`px-2 py-1 text-xs font-medium rounded-md transition-colors ${speed === s
+                  className={`px-3 py-2 min-w-[44px] text-base font-medium rounded-md transition-colors focus:ring-2 focus:ring-primary focus:ring-offset-1 ${speed === s
                       ? "bg-background shadow-sm text-foreground"
                       : "text-muted-foreground hover:text-foreground"
                     }`}
