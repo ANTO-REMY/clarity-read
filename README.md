@@ -29,29 +29,30 @@ This repository contains a front-end prototype with the three core pages: a sync
 ## Clarity-Read Architecture Diagram
 
 ```mermaid
-graph TD
+graph TB
     A[Clarity-Read Application]
     
     A --> B[UI Components Layer]
-    B --> B1[Library Component]
-    B --> B2[Reader Component]
-    B --> B3[Clarify Interface]
-    B --> B4[Settings Component]
-    
     A --> C[Application Logic Layer]
-    C --> C1[Audio-Text Sync Engine]
-    C --> C2[Highlighting Engine]
-    C --> C3[Settings Manager]
-    C --> C4[Library Manager]
-    
     A --> D[Data & Persistence Layer]
-    D --> D1[Book Data & Chapters]
-    D --> D2[LocalStorage - User Settings]
-    
     A --> E[Browser APIs]
+    
+    B --> B1[Library Component]
+    B1 --> B2[Reader Component]
+    B2 --> B3[Clarify Interface]
+    B3 --> B4[Settings Component]
+    
+    C --> C1[Audio-Text Sync Engine]
+    C1 --> C2[Highlighting Engine]
+    C2 --> C3[Settings Manager]
+    C3 --> C4[Library Manager]
+    
+    D --> D1[Book Data & Chapters]
+    D1 --> D2[LocalStorage - User Settings]
+    
     E --> E1[Web Audio API]
-    E --> E2[SpeechSynthesis API]
-    E --> E3[LocalStorage API]
+    E1 --> E2[SpeechSynthesis API]
+    E2 --> E3[LocalStorage API]
 ```
 
 **Research & Evaluation**
