@@ -53,6 +53,18 @@ graph TB
     E --> E1[Web Audio API]
     E1 --> E2[SpeechSynthesis API]
     E2 --> E3[LocalStorage API]
+    
+    classDef appStyle fill:#4A90E2,stroke:#333,stroke-width:2px,color:#fff
+    classDef uiStyle fill:#7B68EE,stroke:#333,stroke-width:2px,color:#fff
+    classDef logicStyle fill:#50C878,stroke:#333,stroke-width:2px,color:#fff
+    classDef dataStyle fill:#FF6B6B,stroke:#333,stroke-width:2px,color:#fff
+    classDef apiStyle fill:#FFA500,stroke:#333,stroke-width:2px,color:#fff
+    
+    class A appStyle
+    class B uiStyle
+    class C logicStyle
+    class D dataStyle
+    class E apiStyle
 ```
 
 **Research & Evaluation**
