@@ -29,6 +29,5 @@ This repository contains a front-end prototype with the three core pages: a sync
 **Research & Evaluation**
 The project is best validated through targeted usability testing with dyslexic readers. Key metrics include time-to-recover-after-lapse, Clarify usage frequency, and comprehension improvements after short reading sessions.
 
-**Contributing**
-Contributions and user-testing feedback are welcome. Please open issues focused on accessibility, highlight timing, Clarify content quality, or design improvements.
+
 
