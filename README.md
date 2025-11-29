@@ -9,7 +9,7 @@ Audiobooks and read-aloud tools are primarily passive. When readers lose focus o
 An Active Reading Assistant that turns listening into interactive learning: synchronized multi-line highlighting, a fast "Clarify" interaction to explain words or sentences, pre-reading scaffolding, and deep personalization so each reader can tune the experience to their needs.
 
 **Core Features**
-- **Synced Highlighting Hub:** Gentle, word-by-word highlighting across a visible chunk of text (3–4 lines) to preserve context and strengthen the sound–symbol connection.
+- **Synced Highlighting Hub:** Sentence highlighting to preserve context and strengthen the sound–symbol connection.
 - **Clarify Button:** A single, prominent control that pauses playback, highlights the current word or sentence, shows a simple definition and sentence simplification, and can play a short, clearer explanation.
 - **Deep Customization Suite:** Reader-selectable fonts, highlight and background colors, adjustable highlight pacing (independent of audio speed), and chunk-size controls for tailored tracking.
 - **Pre-Reading Scaffolding:** Before chapters, quick primers that introduce key characters/places, short lists of difficult vocabulary with audio, and a concise "story so far" summary to prime comprehension.
