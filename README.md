@@ -1,73 +1,34 @@
-# Welcome to your Lovable project
+# CLARITY-READ
 
-## Project info
+CLARITY-READ is an HCI prototype: an active reading assistant designed to help people with dyslexia read more effectively by combining synchronized audio, contextual highlighting, and instant comprehension supports.
 
-**URL**: https://lovable.dev/projects/4e68053d-c204-469b-b987-92d8a5682bdb
+**Problem**
+Audiobooks and read-aloud tools are primarily passive. When readers lose focus or encounter unfamiliar words or complex sentences, the listening experience breaks down — there is little in-the-moment support that reconnects sound to text and rebuilds comprehension.
 
-## How can I edit this code?
+**Solution**
+An Active Reading Assistant that turns listening into interactive learning: synchronized multi-line highlighting, a fast "Clarify" interaction to explain words or sentences, pre-reading scaffolding, and deep personalization so each reader can tune the experience to their needs.
 
-There are several ways of editing your application.
+**Core Features**
+- **Synced Highlighting Hub:** Gentle, word-by-word highlighting across a visible chunk of text (3–4 lines) to preserve context and strengthen the sound–symbol connection.
+- **Clarify Button:** A single, prominent control that pauses playback, highlights the current word or sentence, shows a simple definition and sentence simplification, and can play a short, clearer explanation.
+- **Deep Customization Suite:** Reader-selectable fonts, highlight and background colors, adjustable highlight pacing (independent of audio speed), and chunk-size controls for tailored tracking.
+- **Pre-Reading Scaffolding:** Before chapters, quick primers that introduce key characters/places, short lists of difficult vocabulary with audio, and a concise "story so far" summary to prime comprehension.
 
-**Use Lovable**
+**Design Principles**
+- Low-friction, immediate interactions that reduce disruption and speed recovery from attention lapses.
+- Multi-sensory reinforcement: tightly coupled audio, visual, and short explanatory supports.
+- Personalization-first: let users control visual and timing parameters to match reading strategies.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/4e68053d-c204-469b-b987-92d8a5682bdb) and start prompting.
+**Target Users**
+- Primary: readers with dyslexia seeking supported, active reading experiences.
+- Secondary: language learners, readers with attention differences, educators and clinicians.
 
-Changes made via Lovable will be committed automatically to this repo.
+**Implementation Notes**
+This repository contains a front-end prototype with the three core pages: a synchronized Reader UI (with Clarify controls), a Library, and a Settings experience where appearance and highlight behaviors are adjustable. Settings are implemented as UI controls and inform the player and highlighting logic.
 
-**Use your preferred IDE**
+**Research & Evaluation**
+The project is best validated through targeted usability testing with dyslexic readers. Key metrics include time-to-recover-after-lapse, Clarify usage frequency, and comprehension improvements after short reading sessions.
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+**Contributing**
+Contributions and user-testing feedback are welcome. Please open issues focused on accessibility, highlight timing, Clarify content quality, or design improvements.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/4e68053d-c204-469b-b987-92d8a5682bdb) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
