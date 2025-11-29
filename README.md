@@ -1,64 +1,3 @@
-Clarity-Read Architecture Diagram
-
-```mermaid
-flowchart TD
-	subgraph UI[UI / Presentation Layer]
-		Library[Library Interface]
-		Reader[Reader Interface]
-		Clarify[Clarify Interface]
-		Settings[Settings Interface]
-	end
-
-	subgraph Logic[Application Logic Layer]
-		LibraryManager[Library Manager]
-		ReaderManager[Reader Component]
-		ClarifyManager[Clarify Modal/Panel]
-		SettingsManager[User Preferences Manager]
-		AudioSync[Audio–Text Synchronization Engine]
-		HighlightEngine[Highlighting Engine]
-	end
-
-	subgraph Data[Data & Persistence Layer]
-		LocalData[(LocalStorage / IndexedDB)]
-		BookData[Book & Chapter Data]
-	end
-
-	subgraph Browser[Browser APIs]
-		WebAudio[Web Audio API]
-		SpeechSynthesis[SpeechSynthesis API]
-		StorageAPI[LocalStorage]
-	end
-
-	%% UI to Logic
-	Library --> LibraryManager
-	Reader --> ReaderManager
-	Clarify --> ClarifyManager
-	Settings --> SettingsManager
-
-	%% Logic to Logic
-	ReaderManager --> AudioSync
-	ReaderManager --> HighlightEngine
-	ClarifyManager --> HighlightEngine
-	SettingsManager --> HighlightEngine
-	SettingsManager --> AudioSync
-
-	%% Logic to Data
-	LibraryManager --> BookData
-	SettingsManager --> LocalData
-
-	%% Logic to Browser APIs
-	AudioSync --> WebAudio
-	AudioSync --> SpeechSynthesis
-	HighlightEngine --> StorageAPI
-	SettingsManager --> StorageAPI
-
-	%% Data to Browser APIs
-	LocalData --> StorageAPI
-
-	%% Data flow arrows
-	BookData --> ReaderManager
-	LocalData --> SettingsManager
-```
 # CLARITY-READ
 
 CLARITY-READ is an HCI prototype: an active reading assistant designed to help people with dyslexia read more effectively by combining synchronized audio, contextual highlighting, and instant comprehension supports.
@@ -86,6 +25,34 @@ An Active Reading Assistant that turns listening into interactive learning: sync
 
 **Implementation Notes**
 This repository contains a front-end prototype with the three core pages: a synchronized Reader UI (with Clarify controls), a Library, and a Settings experience where appearance and highlight behaviors are adjustable. Settings are implemented as UI controls and inform the player and highlighting logic.
+
+## Clarity-Read Architecture Diagram
+
+```mermaid
+graph TD
+    A[Clarity-Read Application]
+    
+    A --> B[UI Components Layer]
+    B --> B1[Library Component]
+    B --> B2[Reader Component]
+    B --> B3[Clarify Interface]
+    B --> B4[Settings Component]
+    
+    A --> C[Application Logic Layer]
+    C --> C1[Audio-Text Sync Engine]
+    C --> C2[Highlighting Engine]
+    C --> C3[Settings Manager]
+    C --> C4[Library Manager]
+    
+    A --> D[Data & Persistence Layer]
+    D --> D1[Book Data & Chapters]
+    D --> D2[LocalStorage - User Settings]
+    
+    A --> E[Browser APIs]
+    E --> E1[Web Audio API]
+    E --> E2[SpeechSynthesis API]
+    E --> E3[LocalStorage API]
+```
 
 **Research & Evaluation**
 The project is best validated through targeted usability testing with dyslexic readers. Key metrics include time-to-recover-after-lapse, Clarify usage frequency, and comprehension improvements after short reading sessions.
