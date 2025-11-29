@@ -33,30 +33,28 @@ export const FirstTimeCustomizationPrompt = ({ onCustomizeNow }: FirstTimeCustom
     <Dialog open={!settings.hasSeenPrompt} onOpenChange={(open) => {
       if (!open) handleMaybeLater();
     }}>
-      <DialogContent className="max-w-md">
+      <DialogContent className="max-w-lg">
         <DialogHeader>
-          <DialogTitle className="text-2xl flex items-center gap-2">
+          <DialogTitle className="text-3xl flex items-center gap-2">
             Welcome! 👋
           </DialogTitle>
-          <DialogDescription className="text-base pt-4">
+          <DialogDescription className="text-lg pt-6 leading-relaxed">
             Customize your reading experience for better comfort and focus. 
             Choose fonts, spacing, and colors that work best for you.
           </DialogDescription>
         </DialogHeader>
 
-        <div className="flex flex-col gap-3 pt-4">
+        <div className="flex flex-col gap-4 pt-6">
           <Button
             onClick={handleCustomizeNow}
-            size="lg"
-            className="w-full"
+            className="w-full h-14 text-lg font-semibold focus:ring-2 focus:ring-primary focus:ring-offset-2"
           >
             Customize Now
           </Button>
           <Button
             onClick={handleMaybeLater}
             variant="outline"
-            size="lg"
-            className="w-full"
+            className="w-full h-14 text-lg font-medium focus:ring-2 focus:ring-primary focus:ring-offset-2"
           >
             Maybe Later
           </Button>

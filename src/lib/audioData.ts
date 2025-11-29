@@ -285,9 +285,161 @@ export const greatGatsbyChapter1: ChapterData = {
         { word: "the", start: 68.5, end: 68.7 },
         { word: "horizon", start: 68.7, end: 69.3 }
       ]
+    },
+    {
+      text: "When I came back from the East last autumn I felt that I wanted the world to be in uniform and at a sort of moral attention forever;",
+      start: 70.0,
+      end: 79.5,
+      words: [
+        { word: "When", start: 70.0, end: 70.3 },
+        { word: "I", start: 70.3, end: 70.5 },
+        { word: "came", start: 70.5, end: 70.8 },
+        { word: "back", start: 70.8, end: 71.2 },
+        { word: "from", start: 71.2, end: 71.5 },
+        { word: "the", start: 71.5, end: 71.7 },
+        { word: "East", start: 71.7, end: 72.1 },
+        { word: "last", start: 72.1, end: 72.4 },
+        { word: "autumn", start: 72.4, end: 73.0 },
+        { word: "I", start: 73.0, end: 73.2 },
+        { word: "felt", start: 73.2, end: 73.5 },
+        { word: "that", start: 73.5, end: 73.7 },
+        { word: "I", start: 73.7, end: 73.9 },
+        { word: "wanted", start: 73.9, end: 74.3 },
+        { word: "the", start: 74.3, end: 74.5 },
+        { word: "world", start: 74.5, end: 74.9 },
+        { word: "to", start: 74.9, end: 75.1 },
+        { word: "be", start: 75.1, end: 75.3 },
+        { word: "in", start: 75.3, end: 75.5 },
+        { word: "uniform", start: 75.5, end: 76.1 },
+        { word: "and", start: 76.1, end: 76.3 },
+        { word: "at", start: 76.3, end: 76.5 },
+        { word: "a", start: 76.5, end: 76.6 },
+        { word: "sort", start: 76.6, end: 76.9 },
+        { word: "of", start: 76.9, end: 77.1 },
+        { word: "moral", start: 77.1, end: 77.5 },
+        { word: "attention", start: 77.5, end: 78.2 },
+        { word: "forever", start: 78.2, end: 79.0 }
+      ]
+    },
+    {
+      text: "I wanted no more riotous excursions with privileged glimpses into the human heart.",
+      start: 79.5,
+      end: 85.0,
+      words: [
+        { word: "I", start: 79.5, end: 79.7 },
+        { word: "wanted", start: 79.7, end: 80.1 },
+        { word: "no", start: 80.1, end: 80.3 },
+        { word: "more", start: 80.3, end: 80.7 },
+        { word: "riotous", start: 80.7, end: 81.3 },
+        { word: "excursions", start: 81.3, end: 82.2 },
+        { word: "with", start: 82.2, end: 82.5 },
+        { word: "privileged", start: 82.5, end: 83.2 },
+        { word: "glimpses", start: 83.2, end: 83.8 },
+        { word: "into", start: 83.8, end: 84.1 },
+        { word: "the", start: 84.1, end: 84.3 },
+        { word: "human", start: 84.3, end: 84.7 },
+        { word: "heart", start: 84.7, end: 85.0 }
+      ]
+    },
+    {
+      text: "Only Gatsby, the man who gives his name to this book, was exempt from my reaction—",
+      start: 85.5,
+      end: 92.0,
+      words: [
+        { word: "Only", start: 85.5, end: 85.9 },
+        { word: "Gatsby", start: 85.9, end: 86.5 },
+        { word: "the", start: 86.5, end: 86.7 },
+        { word: "man", start: 86.7, end: 87.0 },
+        { word: "who", start: 87.0, end: 87.3 },
+        { word: "gives", start: 87.3, end: 87.7 },
+        { word: "his", start: 87.7, end: 87.9 },
+        { word: "name", start: 87.9, end: 88.2 },
+        { word: "to", start: 88.2, end: 88.4 },
+        { word: "this", start: 88.4, end: 88.7 },
+        { word: "book", start: 88.7, end: 89.1 },
+        { word: "was", start: 89.1, end: 89.4 },
+        { word: "exempt", start: 89.4, end: 90.0 },
+        { word: "from", start: 90.0, end: 90.3 },
+        { word: "my", start: 90.3, end: 90.5 },
+        { word: "reaction", start: 90.5, end: 91.3 }
+      ]
+    },
+    {
+      text: "Gatsby who represented everything for which I have an unaffected scorn.",
+      start: 92.0,
+      end: 97.5,
+      words: [
+        { word: "Gatsby", start: 92.0, end: 92.6 },
+        { word: "who", start: 92.6, end: 92.9 },
+        { word: "represented", start: 92.9, end: 93.7 },
+        { word: "everything", start: 93.7, end: 94.5 },
+        { word: "for", start: 94.5, end: 94.8 },
+        { word: "which", start: 94.8, end: 95.1 },
+        { word: "I", start: 95.1, end: 95.3 },
+        { word: "have", start: 95.3, end: 95.6 },
+        { word: "an", start: 95.6, end: 95.8 },
+        { word: "unaffected", start: 95.8, end: 96.6 },
+        { word: "scorn", start: 96.6, end: 97.2 }
+      ]
+    },
+    {
+      text: "If personality is an unbroken series of successful gestures, then there was something gorgeous about him,",
+      start: 98.0,
+      end: 106.0,
+      words: [
+        { word: "If", start: 98.0, end: 98.2 },
+        { word: "personality", start: 98.2, end: 99.2 },
+        { word: "is", start: 99.2, end: 99.4 },
+        { word: "an", start: 99.4, end: 99.6 },
+        { word: "unbroken", start: 99.6, end: 100.3 },
+        { word: "series", start: 100.3, end: 100.9 },
+        { word: "of", start: 100.9, end: 101.1 },
+        { word: "successful", start: 101.1, end: 101.9 },
+        { word: "gestures", start: 101.9, end: 102.6 },
+        { word: "then", start: 102.6, end: 102.9 },
+        { word: "there", start: 102.9, end: 103.2 },
+        { word: "was", start: 103.2, end: 103.5 },
+        { word: "something", start: 103.5, end: 104.1 },
+        { word: "gorgeous", start: 104.1, end: 104.8 },
+        { word: "about", start: 104.8, end: 105.2 },
+        { word: "him", start: 105.2, end: 105.6 }
+      ]
+    },
+    {
+      text: "some heightened sensitivity to the promises of life, as if he were related to one of those intricate machines that register earthquakes ten thousand miles away.",
+      start: 106.0,
+      end: 118.0,
+      words: [
+        { word: "some", start: 106.0, end: 106.3 },
+        { word: "heightened", start: 106.3, end: 107.1 },
+        { word: "sensitivity", start: 107.1, end: 108.0 },
+        { word: "to", start: 108.0, end: 108.2 },
+        { word: "the", start: 108.2, end: 108.4 },
+        { word: "promises", start: 108.4, end: 109.1 },
+        { word: "of", start: 109.1, end: 109.3 },
+        { word: "life", start: 109.3, end: 109.8 },
+        { word: "as", start: 109.8, end: 110.0 },
+        { word: "if", start: 110.0, end: 110.2 },
+        { word: "he", start: 110.2, end: 110.4 },
+        { word: "were", start: 110.4, end: 110.7 },
+        { word: "related", start: 110.7, end: 111.3 },
+        { word: "to", start: 111.3, end: 111.5 },
+        { word: "one", start: 111.5, end: 111.8 },
+        { word: "of", start: 111.8, end: 112.0 },
+        { word: "those", start: 112.0, end: 112.4 },
+        { word: "intricate", start: 112.4, end: 113.1 },
+        { word: "machines", start: 113.1, end: 113.8 },
+        { word: "that", start: 113.8, end: 114.0 },
+        { word: "register", start: 114.0, end: 114.6 },
+        { word: "earthquakes", start: 114.6, end: 115.5 },
+        { word: "ten", start: 115.5, end: 115.8 },
+        { word: "thousand", start: 115.8, end: 116.3 },
+        { word: "miles", start: 116.3, end: 116.8 },
+        { word: "away", start: 116.8, end: 117.3 }
+      ]
     }
   ],
-  content: `When I came back from the East last autumn I felt that I wanted the world to be in uniform and at a sort of moral attention forever; I wanted no more riotous excursions with privileged glimpses into the human heart. Only Gatsby, the man who gives his name to this book, was exempt from my reaction—Gatsby who represented everything for which I have an unaffected scorn. If personality is an unbroken series of successful gestures, then there was something gorgeous about him, some heightened sensitivity to the promises of life, as if he were related to one of those intricate machines that register earthquakes ten thousand miles away. This responsiveness had nothing to do with that flabby impressionability which is dignified under the name of the "creative temperament"—it was an extraordinary gift for hope, a romantic readiness such as I have never found in any other person and which it is not likely I shall ever find again. No—Gatsby turned out all right at the end; it is what preyed on Gatsby, what foul dust floated in the wake of his dreams that temporarily closed out my interest in the abortive sorrows and short-winded elations of men.
+  content: `This responsiveness had nothing to do with that flabby impressionability which is dignified under the name of the "creative temperament"—it was an extraordinary gift for hope, a romantic readiness such as I have never found in any other person and which it is not likely I shall ever find again. No—Gatsby turned out all right at the end; it is what preyed on Gatsby, what foul dust floated in the wake of his dreams that temporarily closed out my interest in the abortive sorrows and short-winded elations of men.
 
 My family have been prominent, well-to-do people in this Middle Western city for three generations. The Carraways are something of a clan, and we have a tradition that we're descended from the Dukes of Buccleuch, but the actual founder of my line was my grandfather's brother, who came here in fifty-one, sent a substitute to the Civil War, and started the wholesale hardware business that my father carries on to-day.
 

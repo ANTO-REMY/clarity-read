@@ -333,6 +333,332 @@ Enable dyslexic users to customize their reading experience with fonts, spacing,
 
 ---
 
+## 🎯 New Enhancement: Improve UI Sizing for Dyslexic Users
+
+### Problem Statement
+Current UI elements in the Reader interface are too small for optimal accessibility:
+1. Audio player controls (play, clarify, speed buttons) are not prominent enough
+2. Top navigation buttons lack labels and are hard to identify
+3. Customization modal (T button) is too small and doesn't stand out
+4. Overall sizing doesn't meet dyslexia-friendly design standards
+
+### Enhancement Goals
+- Increase audio player size and button prominence
+- Add clear labels to top navigation buttons
+- Enlarge customization modal dimensions
+- Ensure all interactive elements are easily identifiable and accessible
+
+---
+
+## 📋 Implementation Tasks
+
+### Task 1: Enlarge Audio Player Controls
+**File**: `src/components/AudioReader.tsx`
+
+**Subtasks**:
+- [ ] Increase audio player container height (current: ~80px → new: ~120px)
+- [ ] Enlarge play/pause button size
+  - Current: ~48px → New: ~64px
+  - Increase icon size proportionally
+- [ ] Enlarge skip forward/backward buttons
+  - Current: ~40px → New: ~52px
+  - Increase icon size and clickable area
+- [ ] Increase Clarify button prominence
+  - Increase button size (height: ~40px → ~52px)
+  - Increase font size for "Clarify" label
+  - Add more padding for better touch target
+- [ ] Enlarge speed control buttons (0.5x, 1x, 1.5x, 2x)
+  - Increase button height: ~32px → ~44px
+  - Increase font size: 14px → 16px
+  - Add more spacing between buttons
+- [ ] Increase volume slider size
+  - Make slider track thicker
+  - Enlarge slider thumb for easier interaction
+- [ ] Increase progress bar height
+  - Current: ~4px → New: ~8px
+  - Enlarge progress thumb/handle
+- [ ] Add more spacing/padding around all controls
+- [ ] Ensure responsive behavior on mobile devices
+
+**Estimated Time**: 30 minutes
+
+---
+
+### Task 2: Add Labels to Top Navigation Buttons
+**File**: `src/pages/Reader.tsx`
+
+**Subtasks**:
+- [ ] Add label to back button
+  - Icon + "Back" text
+  - Increase button size to accommodate text
+- [ ] Add label to customization button (T/Aa button)
+  - Icon + "Customize" text
+  - Increase button size
+- [ ] Add label to settings button
+  - Icon + "Settings" text
+  - Increase button size
+- [ ] Increase top navigation bar height to accommodate larger buttons
+  - Current: ~60px → New: ~72px
+- [ ] Increase font size for labels
+  - Font size: 14px → 16px
+  - Font weight: 500 (medium)
+- [ ] Adjust spacing between icon and text
+  - Add 8px gap between icon and label
+- [ ] Ensure buttons have adequate padding
+  - Padding: 12px 16px (vertical horizontal)
+- [ ] Style labels for better visibility
+  - High contrast colors
+  - Clear, readable font
+- [ ] Test responsiveness on mobile
+  - Consider icon-only on very small screens
+  - Or stack icon above text
+
+**Estimated Time**: 25 minutes
+
+---
+
+### Task 3: Enlarge Customization Modal
+**File**: `src/components/ReadingCustomizerModal.tsx`
+
+**Subtasks**:
+- [ ] Increase modal width
+  - Current: ~450px → New: ~550px on desktop
+  - Full width on mobile (with padding)
+- [ ] Increase modal height (auto, but with more spacing)
+- [ ] Enlarge section headers
+  - Font size: 16px → 18px
+  - Font weight: 600 (semibold)
+  - Add more margin below headers
+- [ ] Increase font option buttons size
+  - Button height: ~40px → ~52px
+  - Font size: 14px → 16px
+  - More padding inside buttons
+- [ ] Enlarge sliders
+  - Increase slider track height: 4px → 6px
+  - Enlarge slider thumb: 16px → 20px
+  - Make labels larger: 13px → 15px
+- [ ] Increase background color swatches
+  - Swatch size: 48px → 64px
+  - Add more spacing between swatches
+- [ ] Enlarge text color radio buttons
+  - Button height: ~40px → ~52px
+  - Font size: 14px → 16px
+- [ ] Increase "Reset to Default" button size
+  - Height: ~40px → ~52px
+  - Font size: 14px → 16px
+  - Full width button with more padding
+- [ ] Add more internal spacing/padding
+  - Increase gap between sections: 20px → 28px
+  - Increase padding inside modal: 24px → 32px
+- [ ] Enlarge close button (X)
+  - Size: 24px → 32px
+  - Larger clickable area
+
+**Estimated Time**: 30 minutes
+
+---
+
+### Task 4: General Accessibility Improvements
+**Files**: Multiple component files
+
+**Subtasks**:
+- [ ] Ensure all interactive elements meet minimum touch target size
+  - Minimum: 44x44px (WCAG 2.1 Level AAA)
+- [ ] Add focus indicators for keyboard navigation
+  - Visible focus ring on all interactive elements
+  - High contrast focus states
+- [ ] Increase font sizes across Reader interface
+  - Minimum body text: 16px
+  - Button text: 16px minimum
+  - Labels: 14px minimum
+- [ ] Add more whitespace/breathing room
+  - Increase padding and margins
+  - Reduce visual clutter
+- [ ] Ensure sufficient color contrast
+  - Text: minimum 4.5:1 contrast ratio
+  - Buttons: minimum 3:1 contrast ratio
+- [ ] Test with dyslexia simulation tools
+- [ ] Test on various screen sizes and devices
+
+**Estimated Time**: 20 minutes
+
+---
+
+### Task 5: Update First-Time Customization Prompt
+**File**: `src/components/FirstTimeCustomizationPrompt.tsx`
+
+**Subtasks**:
+- [ ] Increase modal width: ~400px → ~500px
+- [ ] Increase font sizes
+  - Title: 20px → 24px
+  - Body text: 14px → 16px
+- [ ] Enlarge buttons
+  - Height: ~40px → ~52px
+  - Font size: 14px → 16px
+  - Add more padding
+- [ ] Increase spacing between elements
+  - More padding inside modal
+  - More space between title, text, and buttons
+- [ ] Make buttons more prominent
+  - "Customize Now" should be primary (larger/bolder)
+  - Ensure sufficient spacing between the two buttons
+
+**Estimated Time**: 15 minutes
+
+---
+
+## 📁 Files to Modify
+
+1. `src/components/AudioReader.tsx` - Audio player controls sizing
+2. `src/pages/Reader.tsx` - Top navigation labels and sizing
+3. `src/components/ReadingCustomizerModal.tsx` - Modal dimensions and controls
+4. `src/components/FirstTimeCustomizationPrompt.tsx` - Prompt sizing
+5. `src/App.css` or component-specific styles - Global size adjustments
+
+---
+
+## 🎨 Visual Design Guidelines
+
+### Size Standards for Dyslexia-Friendly UI:
+- **Minimum Touch Target**: 44x44px (WCAG AAA)
+- **Preferred Touch Target**: 48x48px or larger
+- **Minimum Font Size**: 16px for body text
+- **Button Text**: 16px minimum, 18px preferred
+- **Icon Size**: 24px minimum, 28-32px preferred
+- **Spacing**: Generous padding (16-24px) and margins (12-20px)
+- **Line Height**: 1.5 minimum (already implemented in reading text)
+
+### Before vs After Comparison:
+
+#### Audio Player:
+```
+BEFORE:
+- Container height: ~80px
+- Play button: ~48px
+- Other buttons: ~32-40px
+- Font sizes: 12-14px
+
+AFTER:
+- Container height: ~120px
+- Play button: ~64px
+- Other buttons: ~48-52px
+- Font sizes: 16-18px
+```
+
+#### Top Navigation:
+```
+BEFORE:
+- Height: ~60px
+- Buttons: Icon only, ~40px
+- No text labels
+
+AFTER:
+- Height: ~72px
+- Buttons: Icon + Label, ~52px
+- Clear text labels (Back, Customize, Settings)
+```
+
+#### Customization Modal:
+```
+BEFORE:
+- Width: ~450px
+- Font sizes: 13-16px
+- Buttons: ~40px height
+- Sliders: Small thumbs
+
+AFTER:
+- Width: ~550px
+- Font sizes: 15-18px
+- Buttons: ~52px height
+- Sliders: Larger, easier to grab
+```
+
+---
+
+## ⏱️ Time Estimate
+- **Task 1** (Audio Player): 30 minutes
+- **Task 2** (Navigation Labels): 25 minutes
+- **Task 3** (Modal Sizing): 30 minutes
+- **Task 4** (Accessibility): 20 minutes
+- **Task 5** (Prompt Sizing): 15 minutes
+- **Testing & Polish**: 15 minutes
+- **Total**: ~2 hours 15 minutes
+
+---
+
+## ✅ Success Criteria
+1. [ ] Audio player controls are at least 50% larger and more prominent
+2. [ ] All top navigation buttons have clear text labels
+3. [ ] Customization modal is noticeably larger and easier to interact with
+4. [ ] All interactive elements meet 44x44px minimum touch target
+5. [ ] Font sizes are increased across all UI elements
+6. [ ] Changes are responsive and work on mobile devices
+7. [ ] No visual regressions or layout breaks
+8. [ ] Improved user experience for dyslexic users (testable)
+9. [ ] Maintains visual consistency with existing design
+10. [ ] All accessibility standards are met or exceeded
+
+---
+
+## 🚀 Implementation Approach
+
+### Phase 1: Measurement & Planning (5 minutes)
+- [ ] Measure current sizes of all elements
+- [ ] Document current CSS classes and styles
+- [ ] Plan size increases (maintain proportions)
+
+### Phase 2: Audio Player Enhancement (30 minutes)
+- [ ] Update AudioReader.tsx component
+- [ ] Test all button states (hover, active, disabled)
+- [ ] Verify responsive behavior
+
+### Phase 3: Navigation Improvements (25 minutes)
+- [ ] Add labels to Reader.tsx navigation
+- [ ] Adjust layout and spacing
+- [ ] Test on various screen sizes
+
+### Phase 4: Modal Enlargement (30 minutes)
+- [ ] Update ReadingCustomizerModal.tsx
+- [ ] Update FirstTimeCustomizationPrompt.tsx
+- [ ] Test all interactive elements
+
+### Phase 5: Accessibility & Polish (20 minutes)
+- [ ] Add focus indicators
+- [ ] Verify contrast ratios
+- [ ] Test keyboard navigation
+- [ ] Test with screen readers
+
+### Phase 6: Testing & Validation (15 minutes)
+- [ ] Cross-browser testing
+- [ ] Mobile device testing
+- [ ] Dyslexia simulation testing
+- [ ] Get feedback from target users
+
+---
+
+## 📝 Implementation Notes
+
+### Design Principles:
+- **Progressive Enhancement**: Start with core improvements, add refinements
+- **Maintain Consistency**: Keep visual harmony with existing design
+- **Mobile-First**: Ensure changes work on smallest screens first
+- **Test Early**: Check each component as it's modified
+
+### Technical Considerations:
+- Use relative units (rem, em) where possible for scalability
+- Maintain existing class structure for consistency
+- Use CSS variables for easy adjustments
+- Keep responsive breakpoints in mind
+- Don't break existing functionality
+
+### Accessibility Standards:
+- WCAG 2.1 Level AA (minimum)
+- WCAG 2.1 Level AAA (preferred for touch targets)
+- British Dyslexia Association guidelines
+- W3C Web Accessibility Initiative guidelines
+
+---
+
 ## 📚 References
 - British Dyslexia Association: Font and spacing recommendations
 - Web Content Accessibility Guidelines (WCAG)
