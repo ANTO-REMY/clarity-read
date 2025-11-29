@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
@@ -10,6 +11,7 @@ import {
   Eye,
   ChevronRight
 } from "lucide-react";
+import { ReadingCustomizerModal } from "@/components/ReadingCustomizerModal";
 
 const settingsSections = [
   {
@@ -56,6 +58,7 @@ const settingsSections = [
 
 const Settings = () => {
   const navigate = useNavigate();
+  const [customizerOpen, setCustomizerOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-background">
@@ -71,8 +74,33 @@ const Settings = () => {
         <h1 className="text-xl font-bold text-foreground">Settings</h1>
       </div>
 
+      {/* Reading Customizer Modal */}
+      <ReadingCustomizerModal open={customizerOpen} onOpenChange={setCustomizerOpen} />
+
       {/* Settings List */}
       <div className="max-w-2xl mx-auto p-4 space-y-6">
+        {/* Reading Customization Section */}
+        <div className="space-y-3">
+          <div className="flex items-center gap-2 px-2">
+            <Type className="w-5 h-5 text-primary" />
+            <h2 className="font-semibold text-lg text-foreground">
+              Reading Customization
+            </h2>
+          </div>
+
+          <Card className="p-6 space-y-4">
+            <p className="text-sm text-muted-foreground">
+              Customize fonts, spacing, and colors to make reading more comfortable.
+            </p>
+            <Button 
+              onClick={() => setCustomizerOpen(true)}
+              className="w-full"
+            >
+              Customize Reading Experience
+            </Button>
+          </Card>
+        </div>
+
         {settingsSections.map((section) => {
           const IconComponent = section.icon;
           return (

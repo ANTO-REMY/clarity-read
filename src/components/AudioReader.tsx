@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { useAudioSync } from "@/hooks/useAudioSync";
 import { ChapterData } from "@/lib/audioData";
+import { useReadingSettings } from "@/contexts/ReadingSettingsContext";
 
 interface AudioReaderProps {
   chapterData: ChapterData;
@@ -41,6 +42,8 @@ export const AudioReader = ({ chapterData }: AudioReaderProps) => {
     play,
     pause
   } = useAudioSync(chapterData);
+
+  const { getTextStyles } = useReadingSettings();
 
   const [showClarify, setShowClarify] = useState(false);
   const [volume, setVolumeState] = useState(70);
@@ -285,11 +288,14 @@ export const AudioReader = ({ chapterData }: AudioReaderProps) => {
     );
   };
 
+  // Get custom reading styles
+  const customTextStyles = getTextStyles();
+
   return (
     <div className="flex-1 flex flex-col max-w-4xl mx-auto w-full p-4 gap-6">
       <div className="flex-1 relative">
         <ScrollArea className="h-[calc(100vh-300px)] w-full rounded-md border p-4">
-          <div className="space-y-6 pb-20">
+          <div className="space-y-6 pb-20 p-4 rounded-lg transition-all duration-300" style={customTextStyles}>
             {chapterData.sentences.map((sentence, index) =>
               renderSentenceWithHighlighting(sentence, index)
             )}
